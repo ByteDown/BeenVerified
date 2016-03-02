@@ -1,2 +1,2 @@
 # BeenVerified
-Tic-Tac-Toe
+Tic-Tac-Toe Challenge
