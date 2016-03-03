@@ -1,8 +1,3 @@
-require_relative 'board'
-require_relative 'human'
-require_relative 'computer'
-require_relative 'players'
-
 class Console
   def banner
     puts "
@@ -11,7 +6,7 @@ class Console
       XX   OO  XXXX      XX    OO OO  XXXX      XX   OOOOO  XXXX  
     "
   end
-  
+
   def select_player
     puts "
     Select first player and press enter: (h)uman or (c)omputer"
@@ -28,17 +23,10 @@ class Console
   
   def randomize_turn(player)
     puts "#{player} goes first with X."
-  end
-  
-  def display_board
-    board = Board.new
-    board.display_board
+    if player[-2] == "h"
+      "h"
+    else
+      "c"
+    end
   end
 end
-
-new_game = Console.new
-new_game.banner
-player = new_game.select_player
-new_game.display_rules
-new_game.display_board
-new_game.randomize_turn(player.randomize_turn)

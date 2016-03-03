@@ -7,6 +7,10 @@ class Players
   end
   
   def randomize_turn
-    rand(2) == 1 ? "player one" : "player two"
+    if rand(2) == 1
+      "player_one" + "(#{player_one})"
+    else
+      "player_two" + "(#{player_two})"
+    end
   end
 end
