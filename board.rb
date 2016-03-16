@@ -6,7 +6,7 @@ class Board
     @columns = 3
   end
   
-  def display_board
+  def state
     output = ""
     spaces.each_index do |position|
       output << " #{spaces[position] || position} "
