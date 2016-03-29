@@ -19,19 +19,16 @@ class Game
     @active = true
   end
   
-  def select_players
-    type = select_player_prompt("first")
-    @player_one = Player.new(type, "Player 1")
-    type = select_player_prompt("second")
-    @player_two = Player.new(type, "Player 2")
+  def begin
+   select_players
+   activate_first_player
+   set_marks
+   rules
+   process_moves
   end
   
   def determine_first_player
     rand(2) == 1 ? player_one : player_two
-  end
-  
-  def activate_first_player
-    activate_player(determine_first_player)
   end
   
   def activate_player(player)
@@ -44,11 +41,6 @@ class Game
   
   def inactive_player
     player_one.active ? player_two : player_one
-  end
-  
-  def set_marks
-    active_player.mark = "X"
-    inactive_player.mark = "O"
   end
   
   def change_turn
@@ -66,25 +58,10 @@ class Game
       end
     end
   end
-  
-  def process_move
-    if active_player.type == HUMAN
-      active_player.human_move(board.spaces)
-    else
-      active_player.computer_move(board.spaces)
-    end
-    display_board
-    puts "#{active_player.num} goes..."
-  end
-  
+    
   def display_board
     board.state
     puts "============"
-  end
-  
-  def rules
-    display_board
-    instructions(determine_first_player)
   end
   
   def check_for_winner
@@ -96,5 +73,38 @@ class Game
         display_board
       end
     end  
+  end
+  
+  private
+  
+  def select_players
+    type = select_player_prompt("first")
+    @player_one = Player.new(type, "Player 1")
+    type = select_player_prompt("second")
+    @player_two = Player.new(type, "Player 2")
+  end
+  
+  def activate_first_player
+    activate_player(determine_first_player)
+  end
+  
+  def set_marks
+    active_player.mark = "X"
+    inactive_player.mark = "O"
+  end
+  
+  def rules
+    display_board
+    instructions(determine_first_player)
+  end
+  
+  def process_move
+    if active_player.type == HUMAN
+      active_player.human_move(board.spaces)
+    else
+      active_player.computer_move(board.spaces)
+    end
+    display_board
+    puts "#{inactive_player.num} goes..."
   end
 end
