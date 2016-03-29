@@ -4,6 +4,10 @@ require_relative 'player'
 
 class Game
   include Terminal
+  FIRST_PLAYER = "first"
+  SECOND_PLAYER = "second"
+  PLAYER_ONE = "Player 1"
+  PLAYER_TWO  = "Player 2"
   
   WINNING_COMBOS = [
     [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -78,10 +82,10 @@ class Game
   private
   
   def select_players
-    type = select_player_prompt("first")
-    @player_one = Player.new(type, "Player 1")
-    type = select_player_prompt("second")
-    @player_two = Player.new(type, "Player 2")
+    type = select_player_prompt(FIRST_PLAYER)
+    @player_one = Player.new(type, PLAYER_ONE)
+    type = select_player_prompt(SECOND_PLAYER)
+    @player_two = Player.new(type, PLAYER_TWO)
   end
   
   def activate_first_player
