@@ -1,4 +1,7 @@
 module Instruction
+  HUMAN = 'h'
+  COMPUTER = 'c'
+  
   def select_player_prompt(player_num)
     puts "
     Select #{player_num} player and press enter: (h)uman or (c)omputer"
@@ -11,13 +14,17 @@ module Instruction
     player_type
   end
   
-  def instructions(first_player)
+  def instructions
     puts "
-    Choose position from the board. #{first_player.num} goes first."
+    Choose position from the board. #{active_player.num} goes first."
   end
   
   def display_board
     board.state
     puts "============"
+  end
+  
+  def indicate_turn
+    puts "#{inactive_player.num}'s turn..."
   end
 end

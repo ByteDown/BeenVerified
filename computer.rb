@@ -2,6 +2,7 @@ class Computer < Player
   def move(spaces)
     on = true
     while on
+      position = position_input
       if spaces[position].nil?
         spaces[position] = mark
         on = false
@@ -9,7 +10,7 @@ class Computer < Player
     end
   end
   
-  def position
-    rand(9)
+  def position_input
+    rand(8)
   end
 end

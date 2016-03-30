@@ -1,23 +1,18 @@
-require_relative 'terminal'
 require_relative 'board'
 require_relative 'player'
+require_relative 'human'
+require_relative 'computer'
 require_relative 'instruction'
-require 'pry'
+require_relative 'engine'
 
 class Game
-  include Terminal
   include Instruction
+  include Engine
   
   FIRST_PLAYER = "first"
   SECOND_PLAYER = "second"
   PLAYER_ONE = "Player 1"
   PLAYER_TWO  = "Player 2"
-  
-  WINNING_COMBOS = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8],
-    [0, 3, 6], [1, 4, 7], [2, 5, 8],
-    [0, 4, 8], [2, 4, 6]
-  ]
   
   attr_reader :player_one, :player_two, :turn, :board
   attr_accessor :active
@@ -32,7 +27,7 @@ class Game
    activate_first_player
    set_marks
    display_board
-   instructions(self.player_one)
+   instructions
    process_moves
   end
   
@@ -52,6 +47,8 @@ class Game
     count = 0
     while self.active
       process_move
+      display_board
+      indicate_turn
       change_turn
       count += 1
       if count > 4
@@ -60,24 +57,21 @@ class Game
     end
   end
   
-  def check_for_winner
-    spaces = self.board.spaces
-    WINNING_COMBOS.each do |combo|
-      if spaces[combo[0]] == spaces[combo[1]] && spaces[combo[1]] == spaces[combo[2]]
-        self.active = false
-        announce_winner
-        display_board
-      end
-    end  
-  end
-  
   private
   
   def select_players
     type = select_player_prompt(FIRST_PLAYER)
-    @player_one = Player.new(type, PLAYER_ONE)
+    @player_one = create_player(type)
     type = select_player_prompt(SECOND_PLAYER)
-    @player_two = Player.new(type, PLAYER_TWO)
+    @player_two = create_player(type)
+  end
+  
+  def create_player(type)
+    if type == "h"
+      Human.new(PLAYER_ONE)
+    else
+      Computer.new(PLAYER_TWO)
+    end
   end
   
   def determine_first_player
@@ -97,18 +91,7 @@ class Game
     inactive_player.mark = "O"
   end
   
-  def rules
-    display_board
-    instructions(determine_first_player)
-  end
-  
   def process_move
-    if active_player.type == HUMAN
-      active_player.human_move(board.spaces)
-    else
-      active_player.computer_move(board.spaces)
-    end
-    display_board
-    puts "#{inactive_player.num}'s turn..."
+    active_player.move(board.spaces)
   end
 end

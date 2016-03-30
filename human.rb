@@ -1,5 +1,3 @@
-require 'pry'
-
 class Human < Player
   def move(spaces)
     on = true
@@ -20,6 +18,5 @@ class Human < Player
   
   def error_msg
     puts "Select a box that is empty"
-    position_input
   end
 end

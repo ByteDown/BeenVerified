@@ -17,7 +17,7 @@ module Engine
   end
   
   def announce_winner
-    puts "#{active_player.num} has won"
+    puts "#{inactive_player.num} has won"
     puts "Would you like to play new game yes(y) or no(n)"
     input = gets.chomp.downcase
     if input == "y"

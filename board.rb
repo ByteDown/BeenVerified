@@ -8,11 +8,11 @@ class Board
   
   def state
     output = ""
-    spaces.each_index do |position|
-      output << " #{spaces[position] || position} "
-      case position % columns
+    spaces.each_with_index do |value, index|
+      output << " #{value || index} "
+      case index % columns
       when 0, 1 then output << "|"
-      when 2 then output << "\n------------\n" unless position == 8
+      when 2 then output << "\n------------\n" unless index == 8
       end
     end
     puts output
