@@ -1,9 +1,13 @@
 require_relative 'terminal'
 require_relative 'board'
 require_relative 'player'
+require_relative 'instruction'
+require 'pry'
 
 class Game
   include Terminal
+  include Instruction
+  
   FIRST_PLAYER = "first"
   SECOND_PLAYER = "second"
   PLAYER_ONE = "Player 1"
@@ -27,16 +31,9 @@ class Game
    select_players
    activate_first_player
    set_marks
-   rules
+   display_board
+   instructions(self.player_one)
    process_moves
-  end
-  
-  def determine_first_player
-    rand(2) == 1 ? player_one : player_two
-  end
-  
-  def activate_player(player)
-    player.active = true
   end
   
   def active_player
@@ -62,11 +59,6 @@ class Game
       end
     end
   end
-    
-  def display_board
-    board.state
-    puts "============"
-  end
   
   def check_for_winner
     spaces = self.board.spaces
@@ -86,6 +78,14 @@ class Game
     @player_one = Player.new(type, PLAYER_ONE)
     type = select_player_prompt(SECOND_PLAYER)
     @player_two = Player.new(type, PLAYER_TWO)
+  end
+  
+  def determine_first_player
+    rand(2) == 1 ? player_one : player_two
+  end
+  
+  def activate_player(player)
+    player.active = true
   end
   
   def activate_first_player
@@ -109,6 +109,6 @@ class Game
       active_player.computer_move(board.spaces)
     end
     display_board
-    puts "#{inactive_player.num} goes..."
+    puts "#{inactive_player.num}'s turn..."
   end
 end
